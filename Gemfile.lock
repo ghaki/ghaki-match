@@ -1,0 +1,34 @@
+PATH
+  remote: .
+  specs:
+    ghaki-matcher (2011.11.29.1)
+      ghaki-bool (>= 2011.11.29.1)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    diff-lcs (1.1.3)
+    ghaki-bool (2011.11.29.1)
+    json (1.6.2)
+    metaclass (0.0.1)
+    mocha (0.10.0)
+      metaclass (~> 0.0.1)
+    rdoc (3.11)
+      json (~> 1.4)
+    rspec (2.7.0)
+      rspec-core (~> 2.7.0)
+      rspec-expectations (~> 2.7.0)
+      rspec-mocks (~> 2.7.0)
+    rspec-core (2.7.1)
+    rspec-expectations (2.7.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.7.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  ghaki-matcher!
+  mocha (>= 0.9.12)
+  rdoc (>= 3.9.4)
+  rspec (>= 2.4.0)

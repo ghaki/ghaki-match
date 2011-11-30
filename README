@@ -1,0 +1,23 @@
+= Ghaki Match - Regexp helpers
+
+Ghaki Match is a collection of regular expression automation helpers.
+
+== Download
+
+The latest version of Ghaki Match can be found at
+
+* git@github.com:ghaki/ghaki-match.git
+
+== Installation
+
+The preferred method of installing Ghaki Match is through its GEM file.
+
+  % [sudo] gem install ghaki-match-0.0.1.gem
+
+== License
+
+Ghaki App is released under the MIT license.
+
+== Support
+
+Contact mailto:gerald@kalafut.org
