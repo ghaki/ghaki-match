@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
 
-  s.name        = 'ghaki-matcher'
+  s.name        = 'ghaki-match'
   s.summary     = 'Regular expression automation helpers'
   s.description = 'Collection of helpers for regular expression helpers.'
 
