@@ -4,9 +4,13 @@ module Ghaki module Match module Parser module Boolean_Testing
 describe Boolean do
 
   FIELDS_EXP = ['EXPECTED']
+  FIELD_HAVE = FIELDS_EXP.first
   EXTRA_KEY = 'ZAP'
-  EXTRA_TEXT = 'ZIP ZAP ZOOM'
+  EXTRA_TEXT = EXTRA_KEY.downcase
 
+  subject { Boolean.new }
+
+  it { should be_kind_of(Parser::Base) }
   it { should respond_to :boolean_lookup }
   it { should respond_to :boolean_lookup= }
   
@@ -26,11 +30,11 @@ describe Boolean do
     context 'using option :skip_boolean_defaults' do
       it 'ignores defaults when specified' do
         @subj = Boolean.new( :skip_boolean_defaults => true )
-        @subj.lookups.should be_empty
+        @subj.match_lookup.should be_empty
       end
       it 'imports defaults when missing' do
         @subj = Boolean.new
-        @subj.lookups.should_not be_empty
+        @subj.match_lookup.should_not be_empty
       end
     end
 
@@ -51,8 +55,6 @@ describe Boolean do
   end
 
   describe '#parse_value' do
-
-    subject { Boolean.new }
 
     context 'when unmatched' do
       let(:text) { 'INVALID' }
@@ -90,7 +92,7 @@ describe Boolean do
 
     context 'with present field' do
 
-      let(:field) { FIELDS_EXP.first }
+      let(:field) { FIELD_HAVE }
 
       context 'when unmatched' do
         let(:text) { 'NOT_FOUND' }

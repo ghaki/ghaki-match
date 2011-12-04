@@ -2,40 +2,74 @@ require 'ghaki/match/parser/base'
 
 module Ghaki module Match module Parser module Base_Testing
 describe Base do
-  FIND_KEY = 'FOUND'
-  FIND_VAL = 'RETURNED'
-  GOOD_TEXT = 'SHOULD BE FOUND BY PARSER'
+  EXACT_KEY  = 'FOUND'
+  EXACT_VAL  = 'EXACT-RETURNED'
+  EXACT_TEXT = 'FounD'
+  EXACT_FAIL = 'THIS FOUND NOW'
+  EXACT_WORDS = { EXACT_VAL => [EXACT_KEY] }
+
+  BOUND_KEY = 'HERE'
+  BOUND_VAL = 'BOUND-RETURNED'
+  BOUND_TEXT = 'LOOK HERE NOW'
+  BOUND_LOOKUP = { %r{\b#{BOUND_KEY}\b}i => BOUND_VAL }
+
   MISS_TEXT = 'INVALID'
   MISS_DEF = 'PASS_BACK'
 
-  subject do
-    Base.new({
-      %r{\b#{FIND_KEY}\b} => FIND_VAL,
-    })
-  end
-
   describe '#initialize' do
-    context 'using option :match_words' do
-      it 'accepts' do
-        @subj = Base.new( :match_words => { FIND_VAL => [FIND_KEY] } )
-        subject.match_text(GOOD_TEXT).should == FIND_VAL
+
+    context 'using no options' do
+      it 'has empty match lookups' do
+        Base.new.match_lookup.should be_empty
       end
     end
+
+    context 'using option :match_lookup' do
+      it 'accepts' do
+        @subj = Base.new( :match_lookup => BOUND_LOOKUP )
+        @subj.match_lookup.should_not be_empty
+        @subj.match_text(BOUND_TEXT).should == BOUND_VAL
+      end
+    end
+
+    context 'using option :match_words' do
+      it 'accepts' do
+        @subj = Base.new( :match_words => EXACT_WORDS )
+        @subj.match_lookup.should_not be_empty
+        @subj.match_text(EXACT_TEXT).should == EXACT_VAL
+      end
+    end
+
   end
 
+  subject { Base.new }
+
+  it { should respond_to :match_lookup  }
+  it { should respond_to :match_lookup= }
+  it { should respond_to :default_value  }
+  it { should respond_to :default_value= }
+
   describe '#add_words' do
-    subject { Base.new }
-    it 'generates match pairs' do
-      subject.add_words FIND_VAL => [FIND_KEY]
-      subject.match_text(GOOD_TEXT).should == FIND_VAL
+    before(:each) do
+      subject.add_words EXACT_VAL => [EXACT_KEY]
+    end
+    it 'matches against exact text' do
+      subject.match_text(EXACT_TEXT).should == EXACT_VAL
+    end
+    it 'does not match against boundary' do
+      subject.match_text(EXACT_FAIL).should be_nil
     end
   end
 
   describe '#match_text' do
 
+    before(:each) do
+      subject.match_lookup = BOUND_LOOKUP
+    end
+
     context 'when matched' do
       it 'passes specified value' do
-        subject.match_text(GOOD_TEXT).should == FIND_VAL
+        subject.match_text(BOUND_TEXT).should == BOUND_VAL
       end
     end
 
@@ -66,9 +100,13 @@ describe Base do
 
   describe '#match_lines' do
 
+    before(:each) do
+      subject.match_lookup = BOUND_LOOKUP
+    end
+
     context 'when matched' do
       it 'should match' do
-        subject.match_lines([GOOD_TEXT]).should == FIND_VAL
+        subject.match_lines([BOUND_TEXT]).should == BOUND_VAL
       end
     end
 

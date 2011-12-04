@@ -17,7 +17,7 @@ class Boolean < Base
     @boolean_lookup || []
   end
 
-  def initialize opts={}; super( {}, opts )
+  def initialize opts={}; super opts
     opts_boolean opts
   end
 
