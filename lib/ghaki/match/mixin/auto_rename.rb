@@ -7,15 +7,15 @@ module Mixin #:nodoc:
 module AutoRename
   extend Ghaki::Bool::Accessors
 
-  bool_accessor :auto_rename_to_token
-  attr_writer   :auto_rename_fields
+  bool_accessor :auto_tokenize
+  attr_writer   :field_renames
 
-  def auto_rename_fields
-    @auto_rename_fields || {}
+  def field_renames
+    @field_renames || {}
   end
 
   # Converts 'HTTP Compression' into :http_compression
-  def auto_field_name key
+  def format_field key
     key.downcase.gsub(%r{[^A-Z0-9]+}xoi,' ').strip.gsub(' ','_')
   end
 
@@ -29,11 +29,11 @@ module AutoRename
   # - if the rename table exists, and does NOT have an entry
   #   - return the string
 
-  def auto_rename_field dirty_key, opts={}
-    do_token = opts[:auto_rename_to_token]
-    do_token = self.auto_rename_to_token? if do_token.nil?
-    to_field = opts[:auto_rename_fields] || self.auto_rename_fields
-    clean_key = auto_field_name(dirty_key)
+  def rename_field dirty_key, opts={}
+    do_token = opts[:auto_tokenize]
+    do_token = self.auto_tokenize? if do_token.nil?
+    to_field = opts[:field_renames] || self.field_renames
+    clean_key = format_field(dirty_key)
     field_key = to_field[clean_key]
     field_key = do_token if field_key.nil? and (not do_token.nil?)
     case field_key

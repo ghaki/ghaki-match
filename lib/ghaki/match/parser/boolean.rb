@@ -11,14 +11,18 @@ class Boolean < Base
     false => %w{ FALSE NO  OFF DISABLED },
   }
 
-  attr_accessor :boolean_fields
+  attr_writer :boolean_lookup
+
+  def boolean_lookup
+    @boolean_lookup || []
+  end
 
   def initialize opts={}; super( {}, opts )
     opts_boolean opts
   end
 
   def opts_boolean opts
-    @boolean_fields = opts[:boolean_fields] || []
+    @boolean_lookup = opts[:boolean_lookup]
     add_trues(  opts[:boolean_trues ]  ) unless opts[:boolean_trues].nil?
     add_falses( opts[:boolean_falses]  ) unless opts[:boolean_falses].nil?
     add_words(  DEFAULT_VALUES         ) unless opts[:skip_boolean_defaults]
@@ -40,7 +44,8 @@ class Boolean < Base
 
   # Check whether key is a known boolean field, if so, get truthiness.
   def parse_field key, val, opts={}, &block
-    if @boolean_fields.member?(key)
+    looky = opts[:boolean_lookup] || self.boolean_lookup
+    if looky.member?(key)
       parse_value( val, opts, &block )
     else
       val

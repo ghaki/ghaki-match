@@ -7,19 +7,19 @@ describe Boolean do
   EXTRA_KEY = 'ZAP'
   EXTRA_TEXT = 'ZIP ZAP ZOOM'
 
-  it { should respond_to :boolean_fields }
-  it { should respond_to :boolean_fields= }
-
+  it { should respond_to :boolean_lookup }
+  it { should respond_to :boolean_lookup= }
+  
   describe '#initialize' do
 
-    context 'using option :boolean_fields' do
+    context 'using option :boolean_lookup' do
       it 'accepts when given' do
-        @subj = Boolean.new( :boolean_fields => FIELDS_EXP )
-        @subj.boolean_fields.should == FIELDS_EXP
+        @subj = Boolean.new( :boolean_lookup => FIELDS_EXP )
+        @subj.boolean_lookup.should == FIELDS_EXP
       end
       it 'defaults as empty' do
         @subj = Boolean.new
-        @subj.boolean_fields.should be_empty
+        @subj.boolean_lookup.should be_empty
       end
     end
 
@@ -86,7 +86,7 @@ describe Boolean do
 
   describe '#parse_field' do
 
-    subject { Boolean.new :boolean_fields => FIELDS_EXP }
+    subject { Boolean.new :boolean_lookup => FIELDS_EXP }
 
     context 'with present field' do
 

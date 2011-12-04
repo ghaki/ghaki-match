@@ -12,19 +12,19 @@ module AutoBoolean
     @auto_boolean_matcher ||= Ghaki::Match::Parser::Boolean.new
   end
 
-  def auto_boolean_fields
-    auto_boolean_matcher.boolean_fields
+  def boolean_lookup
+    auto_boolean_matcher.boolean_lookup
   end
 
-  def auto_boolean_fields= val
-    auto_boolean_matcher.boolean_fields = val
+  def boolean_lookup= val
+    auto_boolean_matcher.boolean_lookup= val
   end
 
-  def auto_boolean_value val, opts={}, &block
+  def boolean_value val, opts={}, &block
     auto_boolean_matcher.parse_value( val, opts, &block )
   end
 
-  def auto_boolean_field key, val, opts={}, &block
+  def boolean_field key, val, opts={}, &block
     auto_boolean_matcher.parse_field( key, val, opts, &block )
   end
 
